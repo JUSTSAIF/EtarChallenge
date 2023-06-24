@@ -1,5 +1,9 @@
+global using EtarChallenge.Data;
 global using Microsoft.EntityFrameworkCore;
-using EtarChallenge.Data;
+global using EtarChallenge.Models;
+// global using EtarChallenge.Services;
+// global using EtarChallenge.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
