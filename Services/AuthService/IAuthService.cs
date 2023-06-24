@@ -1,7 +1,10 @@
+using System.Security.Claims;
+
 namespace EtarChallenge.Services.Auth
 {
     public interface IAuthService
     {
-        public Task<dynamic> Login(string username, string password);
+        public Task<TokenDto?> Login(string username, string password);
+        public string TokenGenerator(int userId);
     }
 }

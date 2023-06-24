@@ -31,7 +31,7 @@ namespace EtarChallenge.Data.Migrations
 
 
             // Create New Def SuperUser For Testing 
-            var passwordHasher = new PasswordHasher<object>();
+            var passwordHasher = new PasswordHasher<User>();
             var gen_pass = passwordHasher.HashPassword(null, "admin");
             migrationBuilder.Sql($"""
                 INSERT INTO users 

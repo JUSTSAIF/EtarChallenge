@@ -2,9 +2,9 @@ namespace EtarChallenge.Services.CategoriesService
 {
     public interface ICategoriesService
     {
-        public Task<dynamic> Index(int id);
-        public Task<dynamic> Create(string name, string des);
-        public Task<dynamic> Update(int id, string name, string des);
-        public Task<dynamic> Delete(int id);
+        public Task<Category?> Index(int id);
+        public Task<Category?> Create(string name, string des, int userId);
+        public Task Update(int id, string name, string des);
+        public Task Delete(int id);
     }
 }

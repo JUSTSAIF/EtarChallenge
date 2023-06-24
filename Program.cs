@@ -1,6 +1,7 @@
 global using EtarChallenge.Data;
 global using Microsoft.EntityFrameworkCore;
 global using EtarChallenge.Models;
+global using EtarChallenge.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

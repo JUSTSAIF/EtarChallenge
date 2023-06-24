@@ -2,24 +2,51 @@ namespace EtarChallenge.Services.ItemsService
 {
     public class ItemsService : IItemsService
     {
-        public Task<dynamic> Create(string name, string des, float price, int catId)
+        private readonly DataContext DataContext;
+        public ItemsService(DataContext dataContext)
         {
-            throw new NotImplementedException();
+            DataContext = dataContext;
         }
 
-        public Task<dynamic> Delete(int id)
+        public async Task<Item?> Index(int id)
         {
-            throw new NotImplementedException();
+            var item = await DataContext.Items.FindAsync(id);
+            return item;
         }
-
-        public Task<dynamic> Index(int id)
+        public async Task<Item?> Create(string name, string des, float price, int catId, int userId)
         {
-            throw new NotImplementedException();
+            Item item = new Models.Item
+            {
+                name = name,
+                description = des,
+                price = price,
+                catId = catId,
+                createdBy = userId,
+                createdAt = DateTime.Now
+            };
+            await DataContext.Items.AddAsync(item);
+            await DataContext.SaveChangesAsync();
+            return item;
         }
-
-        public Task<dynamic> Update(int id, string name, string des, float price, int catId)
+        public async Task Update(int id, string name, string des, float price, int catId)
         {
-            throw new NotImplementedException();
+            var item = await DataContext.Items.FindAsync(id);
+            if (item != null)
+            {
+                item.name = name;
+                item.description = des;
+                item.price = price;
+                await DataContext.SaveChangesAsync();
+            }
+        }
+        public async Task Delete(int id)
+        {
+            var item = await DataContext.Items.FindAsync(id);
+            if (item != null)
+            {
+                DataContext.Items.Remove(item);
+                await DataContext.SaveChangesAsync();
+            }
         }
     }
 }
