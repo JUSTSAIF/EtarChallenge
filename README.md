@@ -46,5 +46,7 @@ $ dotnet watch run
 └── other project files
 ```
 
-<center>### Database Structure Diagram ####
-<img src="./databaseStructure.drawio.png" width="450px" /></center>
+<div align="center">
+    ### Database Structure Diagram ####
+    <img src="./databaseStructure.drawio.png" width="720px" />
+</div>
