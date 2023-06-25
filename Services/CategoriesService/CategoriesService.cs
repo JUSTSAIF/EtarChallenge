@@ -10,7 +10,9 @@ namespace EtarChallenge.Services.CategoriesService
 
         public async Task<Category?> Index(int id)
         {
-            var cat = await DataContext.Categories.FindAsync(id);
+            var cat = await DataContext.Categories
+                .Include(c => c.user)
+                .SingleOrDefaultAsync(c => c.id == id);
             return cat;
         }
         public async Task<Category?> Create(string name, string des, int userId)
@@ -24,7 +26,9 @@ namespace EtarChallenge.Services.CategoriesService
             };
             await DataContext.Categories.AddAsync(category);
             await DataContext.SaveChangesAsync();
-            return category;
+            return await DataContext.Categories
+                .Include(c => c.user)
+                .SingleOrDefaultAsync(c => c.id == category.id);
         }
         public async Task Update(int id, string name, string des)
         {

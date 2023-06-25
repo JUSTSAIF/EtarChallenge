@@ -17,17 +17,19 @@ namespace EtarChallenge.Data
             modelBuilder.Entity<Category>()
                 .HasOne(c => c.user)
                 .WithMany()
-                .HasForeignKey(c => c.createdBy);
-
+                .HasForeignKey(c => c.createdBy)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Item>()
                 .HasOne(c => c.category)
                 .WithMany()
-                .HasForeignKey(c => c.catId);
+                .HasForeignKey(c => c.catId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Item>()
                 .HasOne(c => c.user)
                 .WithMany()
-                .HasForeignKey(c => c.createdBy);
+                .HasForeignKey(c => c.createdBy)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

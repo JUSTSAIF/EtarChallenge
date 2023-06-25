@@ -1,3 +1,4 @@
+global using FluentValidation;
 global using EtarChallenge.Data;
 global using Microsoft.EntityFrameworkCore;
 global using EtarChallenge.Models;
@@ -9,6 +10,12 @@ using EtarChallenge.Services.CategoriesService;
 using EtarChallenge.Services.ItemsService;
 using EtarChallenge.Services.Auth;
 using System.Text;
+using EtarChallenge.Validations.Auth;
+using EtarChallenge.Dto.Auth;
+using EtarChallenge.Validations.Item;
+using EtarChallenge.Dto.Item;
+using EtarChallenge.Validations.Category;
+using EtarChallenge.Dto.Category;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<IItemsService, ItemsService>();
+builder.Services.AddScoped<IValidator<LoginDto>, LoginValidation>();
+builder.Services.AddScoped<IValidator<ItemDto>, ItemValidation>();
+builder.Services.AddScoped<IValidator<CategoryDto>, CategoryValidation>();
 
 
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
