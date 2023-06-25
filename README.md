@@ -14,7 +14,8 @@ Username : admin
 Password : admin
 ```
 
-## Database Migration & App Serve
+## Database Migration & App Serve\
+Note: Update DB ConnectionString in [appsettings.json](./appsettings.json)
 ```
 Apply database migration and update the database:
 $ dotnet ef database update
