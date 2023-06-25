@@ -1,3 +1,7 @@
+using EtarChallenge.Dto.Category;
+using EtarChallenge.Dto.Item;
+using EtarChallenge.Dto.User;
+
 namespace EtarChallenge.Services.ItemsService
 {
     public class ItemsService : IItemsService
@@ -8,15 +12,35 @@ namespace EtarChallenge.Services.ItemsService
             DataContext = dataContext;
         }
 
-        public async Task<Item?> Index(int id)
+        public async Task<ItemResDto?> Index(int id)
         {
-            var item = await DataContext.Items
+            var data = await DataContext.Items
                 .Include(c => c.user)
+                .Include(c => c.category)
                 .SingleOrDefaultAsync(c => c.id == id);
 
-            return item;
+            return new ItemResDto
+            {
+                id = data!.id,
+                name = data.name,
+                price = data.price,
+                description = data.description,
+                createdAt = data.createdAt,
+                category = new CategoryDto
+                {
+                    id = data.category.id,
+                    name = data.category.name,
+                    description = data.category.description
+                },
+                CreatedBy = new UserDto
+                {
+                    id = data.user.id,
+                    name = data.user.name,
+                    username = data.user.username
+                }
+            };
         }
-        public async Task<Item?> Create(string name, string des, float price, int catId, int userId)
+        public async Task<ItemResDto?> Create(string name, string des, float price, int catId, int userId)
         {
             Item item = new Models.Item
             {
@@ -29,9 +53,31 @@ namespace EtarChallenge.Services.ItemsService
             };
             await DataContext.Items.AddAsync(item);
             await DataContext.SaveChangesAsync();
-            return await DataContext.Items
+            var data = await DataContext.Items
                 .Include(c => c.user)
+                .Include(c => c.category)
                 .SingleOrDefaultAsync(c => c.id == item.id);
+            return new ItemResDto
+            {
+                id = data!.id,
+                name = data.name,
+                price = data.price,
+                description = data.description,
+                createdAt = data.createdAt,
+                category = new CategoryDto
+                {
+                    id = data.category.id,
+                    name = data.category.name,
+                    description = data.category.description
+                },
+                CreatedBy = new UserDto
+                {
+                    id = data.user.id,
+                    name = data.user.name,
+                    username = data.user.username
+                },
+            };
+
         }
         public async Task Update(int id, string name, string des, float price, int catId)
         {
@@ -41,6 +87,7 @@ namespace EtarChallenge.Services.ItemsService
                 item.name = name;
                 item.description = des;
                 item.price = price;
+                item.catId = catId;
                 await DataContext.SaveChangesAsync();
             }
         }

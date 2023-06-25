@@ -1,3 +1,5 @@
+using EtarChallenge.Dto.Category;
+
 namespace EtarChallenge.Services.CategoriesService
 {
     public class CategoriesService : ICategoriesService
@@ -8,14 +10,26 @@ namespace EtarChallenge.Services.CategoriesService
             DataContext = dataContext;
         }
 
-        public async Task<Category?> Index(int id)
+        public async Task<CategoryResDto?> Index(int id)
         {
             var cat = await DataContext.Categories
                 .Include(c => c.user)
                 .SingleOrDefaultAsync(c => c.id == id);
-            return cat;
+            return new CategoryResDto
+            {
+                id = cat!.id,
+                name = cat.name,
+                description = cat.description,
+                createdAt = cat.createdAt,
+                CreatedBy = new Dto.User.UserDto
+                {
+                    id = cat.user.id,
+                    name = cat.user.name,
+                    username = cat.user.username
+                }
+            };
         }
-        public async Task<Category?> Create(string name, string des, int userId)
+        public async Task<CategoryResDto?> Create(string name, string des, int userId)
         {
             Category category = new Models.Category
             {
@@ -26,9 +40,23 @@ namespace EtarChallenge.Services.CategoriesService
             };
             await DataContext.Categories.AddAsync(category);
             await DataContext.SaveChangesAsync();
-            return await DataContext.Categories
+            var cat = await DataContext.Categories
                 .Include(c => c.user)
                 .SingleOrDefaultAsync(c => c.id == category.id);
+            return new CategoryResDto
+            {
+                id = cat!.id,
+                name = cat.name,
+                description = cat.description,
+                createdAt = cat.createdAt,
+                CreatedBy = new Dto.User.UserDto
+                {
+                    id = cat.user.id,
+                    name = cat.user.name,
+                    username = cat.user.username
+                }
+            };
+
         }
         public async Task Update(int id, string name, string des)
         {

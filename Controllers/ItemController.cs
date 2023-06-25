@@ -23,7 +23,7 @@ namespace EtarChallenge.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item?>> Get([FromRoute] int id)
+        public async Task<ActionResult<ItemResDto?>> Get([FromRoute] int id)
         {
             var validator = new ItemValidation(DataContext);
             ValidationResult result = await validator.ValidateAsync(new ItemDto { id = id }, options =>
@@ -40,7 +40,7 @@ namespace EtarChallenge.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Item?>> Create([FromBody] ItemDto data)
+        public async Task<ActionResult<ItemResDto?>> Create([FromBody] ItemDto data)
         {
             var validator = new ItemValidation(DataContext);
             ValidationResult result = await validator.ValidateAsync(data, options =>

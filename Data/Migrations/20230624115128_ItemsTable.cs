@@ -27,7 +27,7 @@ namespace EtarChallenge.Data.Migrations
                 {
                     table.PrimaryKey("PK_items", cols => cols.id);
                     table.ForeignKey("FK_items_users_createdBy", cols => cols.createdBy, "users");
-                    table.ForeignKey("FK_items_categories_catId", cols => cols.catId, "categories");
+                    table.ForeignKey("FK_items_categories_catId", cols => cols.catId, "categories", onDelete: ReferentialAction.Cascade);
                 }
             );
         }
