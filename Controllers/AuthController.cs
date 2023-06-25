@@ -9,14 +9,12 @@ namespace EtarChallenge.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly DataContext DataContext;
         private IAuthService AuthService;
         private IValidator<LoginDto> validator;
 
-        public AuthController(DataContext _dataContext, IAuthService _authService, IValidator<LoginDto> _validator)
+        public AuthController(IAuthService _authService, IValidator<LoginDto> _validator)
         {
             validator = _validator;
-            DataContext = _dataContext;
             AuthService = _authService;
         }
 
